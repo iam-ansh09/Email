@@ -14,3 +14,6 @@ class Email(models.Model):
 class Timings(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField()
+
+    class Meta:
+        verbose_name_plural = 'Timings'
