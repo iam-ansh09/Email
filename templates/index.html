@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Email Writing</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load static %}<link rel="stylesheet" href={% static 'style.css' %}>
+        {% comment %} Font Style {% endcomment %}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Arvo&family=Source+Serif+Pro:wght@300&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+                <h1>GIETU CULTURAL FEST 2022</h1>
+                <h1>Email Writing</h1>
+            <div class="contact-box">
+                <div class="contact-left">
+                    <h3>Statement</h3>
+                    <span >Ends In:  </span>
+                    <span class= "minutes">00 </span>
+                    <span>:</span>
+                    <span class= "seconds"> 00 </span>
+                </div>
+                <div class="contact-right">
+                    <h3>Write Your Email Here</h3>
+                    
+                        <form method = "post"  >
+                            {% csrf_token %}
+                            <div class = "input-row">
+                                <div class = "input-group" id = "name">
+                                    <label><b>Name</b></label>
+                                    <input type = "text" name="name" placeholder="Uzumaki Naruto">
+                                </div>
+                                <div class = "input-group">
+                                    <label><b>Roll Number</b></label>
+                                    <input type = "text" name = "roll" placeholder="19CSE000">
+                                </div>
+                                <div class = "input-row">
+                                    <div class = "input-group">
+                                        <label><b>Phone Number</b></label>
+                                        <input type = "number" name = "phone" placeholder="+91 000 000 0000">
+                                    </div>
+                                    <div class = "input-group">
+                                        <label><b>To</b></label>
+                                        <input type = "email" name = "toMail" placeholder="xyz@giet.edu">
+                                    </div>
+                                    <div class = "input-group">
+                                        <label><b>From</b></label>
+                                        <input type = "email" name = "fromMail" placeholder="xyz@giet.edu">
+                                    </div>
+                                    {% comment %} <div class = "input-group">
+                                        <label><b>Subject</b></label>
+                                        <input type = "text" placeholder="Subject">
+                                    </div> {% endcomment %}
+                                </div>
+                            </div>
+                            <label><b>Email</b></label>
+                            <label id='limitWarn' style="display:none"><b style="color:red;">Word Limit Reached<b></label>
+                            <textarea class= "text-input" name = "email" rows="25" placeholder="Your mail goes here"></textarea>
+                            <div>
+                                <strong style = "color: #8740cf;">Word Count: </strong>
+                                <span class="word-count">250</span>
+                              </div>
+                            <button type="submit">Submit</button>
+                        </form>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            if('{{ status }}' == 'success'){
+                alert('Your Response Has Been Recorded');
+            }
+        </script>
+        
+        <script>
+            function atLeastTwoCharacters(text) {
+                const letters = text.match(/[a-z]/gi) || [];
+              
+                return letters.length >= 2;
+              }
+              
+              function abscenceOfThreeConsecutiveCharacters(text) {
+                for (const character of text) {
+                  const occurrences = Array.from(text).filter((v) => v == character).length;
+              
+                  if (occurrences >= 3) {
+                    return false;
+                  }
+                }
+              
+                return true;
+              }
+              
+              const checks = [atLeastTwoCharacters, abscenceOfThreeConsecutiveCharacters];
+              const textInput = document.querySelector(".text-input");
+              const wordCountElement = document.querySelector(".word-count");
+              const letterCountElement = document.querySelector(".letter-count");
+              const spaceCountElement = document.querySelector(".space-count");
+              
+              textInput.addEventListener("input", () => {
+                const splitted = textInput.value.trim().split(/[\s-]/);
+                const letterCount = (textInput.value.match(/[a-z]/gi) || []).length;
+                const spaceCount = (textInput.value.match(/\s+/g) || []).length;
+                let wordCount = 250;
+              
+                outer: for (const text of splitted) {
+                  for (const check of checks) {
+                    if (!check(text)) {
+                      continue outer;
+                    }
+                  }
+        
+                    wordCount--;
+                    el = document.getElementById('limitWarn');
+                    if(wordCount<=0){
+                        el.style.display='block';
+                    }
+                    else{
+                        el.style.display='none';
+                    }
+            
+                }
+              
+                wordCountElement.textContent = wordCount;
+                letterCountElement.textContent = letterCount;
+                spaceCountElement.textContent = spaceCount;
+              });
+              
+
+              {% comment %} Code for Timer {% endcomment %}
+              var min = document.querySelector(".minutes");
+              var sec = document.querySelector(".seconds");
+
+              var time = 1800;
+              var timer = setInterval(()=>{
+                  min.innerHTML = parseInt(time / 60, 10);
+                  sec.innerHTML = parseInt(time % 60, 10);
+                  time--;
+              }, 1000);
+
+              
+        </script>
+    </body>
+</html>
