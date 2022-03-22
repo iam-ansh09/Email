@@ -17,3 +17,6 @@ class Timings(models.Model):
 
     class Meta:
         verbose_name_plural = 'Timings'
+
+class Question(models.Model):
+    statement = models.TextField()

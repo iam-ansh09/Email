@@ -1,10 +1,10 @@
 from django.contrib import admin
-from Event.models import Email,Timings
+from Event.models import Email, Question,Timings
 # Register your models here.
 
 @admin.register(Email)
 class EmailAdmin(admin.ModelAdmin):
-    list_display = ('name','roll','time')
+    list_display = ('name','roll','submittedOn')
 
     def time(self,object:Email):
         try:
@@ -19,5 +19,11 @@ class EmailAdmin(admin.ModelAdmin):
             return 'On Time'
             
 @admin.register(Timings)
-class EmailAdmin(admin.ModelAdmin):
+class TimingAdmin(admin.ModelAdmin):
     list_display = ('start','end')
+
+@admin.register(Question)
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = ('pk','statement')
+
+
